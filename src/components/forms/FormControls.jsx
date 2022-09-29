@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import style from './FormControls.css';
 import classnames from 'classnames';
 
@@ -12,5 +13,14 @@ function FormControl({ label, children }) {
 export function InputControl({ label, ...rest }) {
   return (<FormControl label={label}>
     <input {...rest} />
+  </FormControl>);
+}
+
+export function SelectControl({ label, children, placeholder, ...rest }) {
+  return (<FormControl label={label}>
+    <select {...rest}>
+      {placeholder && <option disabled>{placeholder}</option>}
+      {children}
+    </select>
   </FormControl>);
 }
