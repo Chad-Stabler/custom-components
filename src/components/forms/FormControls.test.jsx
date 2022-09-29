@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import {
+  CheckBox,
   InputControl,
   SelectControl,
   TextAreaControl,
@@ -47,4 +48,18 @@ test('text area control should render', async () => {
   expect(textControl.name).toEqual('car');
   expect(textControl.placeholder).toEqual('Your favorite car');
   expect(textControl.required).toEqual(true);
+});
+
+test('checkbox should render', async () => {
+  render(<CheckBox
+    required
+    legend="Will you join the brotherhood?"
+    label="Summon Cthulu"
+    name="accept"/>);
+
+  const legend = screen.getByText('Will you join the brotherhood?');
+  expect(legend).not.toBeNull();
+  const checkBox = screen.getByLabelText('Summon Cthulu');
+  expect(checkBox.name).toEqual('accept');
+  expect(checkBox.required).toEqual(true);
 });
