@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import {
   CheckBox,
+  FormButton,
   InputControl,
   SelectControl,
   TextAreaControl,
@@ -62,4 +63,11 @@ test('checkbox should render', async () => {
   const checkBox = screen.getByLabelText('Summon Cthulu');
   expect(checkBox.name).toEqual('accept');
   expect(checkBox.required).toEqual(true);
+});
+
+test('button should render, preferably for submission', async () => {
+  render(<FormButton text="Submit form" />);
+
+  const button = screen.getByRole('button');
+  expect(button.textContent).toEqual('Submit form');
 });
