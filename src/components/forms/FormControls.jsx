@@ -24,3 +24,9 @@ export function SelectControl({ label, children, placeholder, ...rest }) {
     </select>
   </FormControl>);
 }
+
+export function TextAreaControl({ label, ...rest }) {
+  return (<FormControl label={label}>
+    <textarea {...rest} />
+  </FormControl>);
+}
