@@ -6,7 +6,7 @@ export default function SearchResults({ results, infiniteScrollRef }) {
     {results.map((result, i) => {
       const ref = i == results.length - 3 ? infiniteScrollRef : undefined;
       return (<SearchResultCard
-        key={result.animal + i}
+        key={result['Species Name'] + i}
         beanie={result}
         infiniteScrollRef={ref} />);
     })}

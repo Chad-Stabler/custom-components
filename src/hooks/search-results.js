@@ -33,7 +33,7 @@ export default function useSearchResults() {
       const body = await search(searchObj);
       setSearchResults(body.results);
     } catch (e) {
-      setError(`Error searching beanies: ${e.body.toString()}`);
+      setError(`Error searching fish: ${e.body}`);
       throw error;
     }
   };
