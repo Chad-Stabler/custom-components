@@ -4,22 +4,48 @@ import { useInView } from 'react-intersection-observer';
 import { search } from '../services/beanie-babies';
 
 export default function useSearchResults() {
-  const [searchresults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [error, setError] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
-  const useSearchParams = Object.fromEntries(searchParams.entries());
+  const useableSearchParams = Object.fromEntries(searchParams.entries());
 
   const nextPage = async () => {
-    useSearchParams.page = parseInt(useSearchParams.page) + 1;
-    setSearchParams(useSearchParams);
-    const moreResults = await search(useSearchParams);
+    useableSearchParams.page = parseInt(useableSearchParams.page) + 1;
+    setSearchParams(useableSearchParams);
+    const moreResults = await search(useableSearchParams);
+    setSearchResults(searchResults.concat(moreResults.results));
   };
 
-  
+  const infiniteScrollRef = useInView({
+    triggerOnce: true, 
+    onChange: (inView) => {
+      if (inView) nextPage();
+    }
+  }).ref;
 
-  const searchBeanieBabies = async (searchObj) => {
+  const searchBeanies = async (searchObj) => {
     if (searchObj.page == null) {
       searchObj.page = 1;
     }
+    setSearchParams(searchObj);
+
+    try {
+      const body = await search(searchObj);
+      setSearchResults(body.results);
+    } catch (e) {
+      setError(`Error searching beanies: ${e.body.toString()}`);
+      throw error;
+    }
+  };
+
+  useEffect(() => void searchBeanies(useableSearchParams), []);
+
+  return {
+    nextPage,
+    searchParams,
+    searchResults,
+    setSearchResults,
+    searchBeanies,
+    infiniteScrollRef
   };
 }
