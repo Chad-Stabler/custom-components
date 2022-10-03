@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import styles from './Search.css';
+import styles from './search.css';
 import SearchResultCard from './SearchResultCard';
 
 export default function SearchResults({ results, infiniteScrollRef }) {
